@@ -12,3 +12,7 @@
     - preorder: root at the first location
     - inorder: the left side of the root is left subtree, right side of the root is right substree 
     
+## 241. Different Ways to Add Parentheses 
+- [Python implementation](./lc_241_diff_ways_add_paren.py)
+- Patterns as x opt y, x and y would also like to the sub operations inside 
+- minimum element to return is the digits by using `list.isdigit()`
