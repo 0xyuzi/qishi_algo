@@ -6,6 +6,10 @@ separete the problem in smaller problems to solve
 2. sort each halved list 
 3. merge them back 
 """
+import sys,os
+sys.path.append(os.path.realpath('.'))
+
+from helper_func import print_stack
 
 class Solution:
 
@@ -25,6 +29,7 @@ class Solution:
         l_list, r_list = nums[:mid], nums[mid:]
 
         # solve in half list
+        print_stack()
         l_list = self.merge_sort(l_list)
         r_list = self.merge_sort(r_list)
 
