@@ -1,5 +1,11 @@
 # Divide and Conquer
 
+- Consider the exit condition
+- process the current step
+- return by recurive call function with smaller size problem
+- proprocess the return from the recursive call
+- return the result
+
 ## Merge-Sort
 - [Python implementation](./merge_sort.py)
 - Divide the whole list into two halved size list
