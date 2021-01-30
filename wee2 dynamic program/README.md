@@ -143,3 +143,80 @@ class Solution:
         
         return dp[0][height-1]
 ```
+
+## [300. Longest Increasing Subsequence]
+
+### Method1: dynamic programming
+- dp[i], the LIS ended with i start from 0
+- base case: initialize that dp[i] = 1 for all i start from 0 to the end because the min LIS for all dp[i] is 1, which is itself
+- transition function dp[i] = max( dp[j]+1 for j < i and nums[j] < nums[i])
+- O(N^2)
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        
+        # dp[i], the LIS from index 1 to i including i
+        # base case dp[i] = max(dp[j])+1, j<i
+        n = len(nums)
+        
+        dp = [1]*(n+1)
+        
+        for i in range(1,n+1):
+            for j in range(1,i):
+                if nums[i-1] > nums[j-1]:
+                    dp[i] = max(dp[i],dp[j]+1)
+        
+        return max(dp)
+        
+
+```
+
+
+### Method2 patient sort
+- put the card on the leftmost pile where the this car val higher or equal to the current top card on the pile
+- if not found slot in current piles, create the new pile with binary search 
+- O(NlogN)
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        piles = [sys.maxsize]*len(nums)
+        
+        rightmost_pos = 0
+        for num in nums:
+            insert_pos = self.find_pile(piles, num, rightmost_pos)
+            print(insert_pos, rightmost_pos)
+            if insert_pos == rightmost_pos:
+                rightmost_pos += 1 
+                
+            piles[insert_pos] = num 
+            # print(piles)
+            
+        return rightmost_pos
+    
+    
+    def find_pile(self, piles, num, rightmost_pos):
+        """
+        find the leftmost pile that could insert the num in 
+        
+        """
+        left, right = 0, rightmost_pos
+        
+        while left+1 < right:
+            mid = (right - left) // 2 + left 
+            if piles[mid] > num:
+                right = mid
+            else:
+                left = mid
+        
+        
+        if piles[left] >= num:
+            return left
+        else:
+            return right
+        
+
+```
