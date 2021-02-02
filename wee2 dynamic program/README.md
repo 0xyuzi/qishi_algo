@@ -220,3 +220,99 @@ class Solution:
         
 
 ```
+
+## [416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/)
+- Even though it's 1d array, using 2d 0-1 backpack to solve
+- First check if the sum of the nums could be mod by 2, if not return false
+- Then check if it possible to get the half sum of the nums from those nums
+- the dp[i][j] is a boolean value to indicate if select nums from 1 to i and sum the selected ones, is it possible to get val j 
+- dp[i][j] = dp[i-1][j-nums[i]] or dp[i-1][j]
+- Finally, check dp[len of nums][half sum of nums]
+
+```python
+
+"""
+first check if sum(nums) %2 == 0, yes continue, no return false
+dp the size of the sum(nums)//2, 
+dp[i] dp[i-num] and dp[num]
+
+dp[i]  
+
+the 
+
+dp[i][j], to select num from 1 to i in numbers, if it call just fill the j val sum 
+base case: dp[0][0] = True, dp[0][j] = False, dp[i][0]=True
+
+transit state: dp[i][j] = dp[i-1][j-nums[i]] or dp[i-1][j]
+
+"""
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        if sum(nums) %2 != 0:
+            return False 
+        
+        half_sum = sum(nums) // 2
+        len_nums = len(nums)
+        
+        dp = [[False]*(half_sum + 1) for _ in range(len_nums+1)]
+        
+        # base case
+        for i in range(len_nums+1):
+            dp[i][0] = True
+        
+        for i in range(1, len_nums+1):
+            for j in range(1, half_sum+1):
+                if j >= nums[i-1]:
+                    dp[i][j] = dp[i-1][j-nums[i-1]] or dp[i-1][j]
+                else:
+                    dp[i][j] = dp[i-1][j]
+                
+        return dp[len_nums][half_sum]
+            
+        
+```
+
+## [62. Unique Paths](https://leetcode.com/problems/unique-paths/)
+- use `functools.lru_cache` as the memo hashmap
+- Similar problem [63. Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
+    - take care if obstacles at start or end
+    - this case `lru_cache` cannot used, since there is list in the function call which is not hashable
+
+
+```python
+from functools import lru_cache
+
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        
+        
+        return self.dfs(0,0,m,n)
+     
+    @lru_cache(maxsize=None)
+    
+    def dfs(self, x,y, m,n):
+        if x == m-1 and y == n-1:
+            return 1
+        
+        dirs = [(0,1), (1,0)]
+        
+        sum_move = 0
+        
+        for dx, dy in dirs:
+            next_x, next_y = x +dx, y+dy
+            
+            
+            if self.is_valid(next_x, next_y, m,n):
+                sum_move += self.dfs(next_x, next_y, m,n)
+                
+                
+        return sum_move 
+    
+    
+    def is_valid(self, next_x, next_y, m,n):
+        if next_x >=m or next_y >= n:
+            return False
+        
+        return True 
+
+```
