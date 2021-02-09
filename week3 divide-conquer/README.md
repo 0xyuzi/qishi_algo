@@ -5,6 +5,8 @@
 - return by recurive call function with smaller size problem
 - proprocess the return from the recursive call
 - return the result
+-[快速排序和归并排序的时间复杂度分析——通俗易懂](https://www.cnblogs.com/tuyang1129/p/12857821.html)
+
 
 ## Merge-Sort
 - [Python implementation](./merge_sort.py)
@@ -17,7 +19,62 @@
 - Use the properties of preorder and inorder of binary tree transverse
     - preorder: root at the first location
     - inorder: the left side of the root is left subtree, right side of the root is right substree 
+
+__More efficient implementation using hashmap to store the index of inorder numbers__
+```python
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if not preorder or not inorder:
+            return None 
+        
+        
+        in_dict = dict()
+        
+        for index, num in enumerate(inorder):
+            in_dict[num] = index
+        
+        print(in_dict)
+        
+        return self.dfs(preorder,inorder, 0, len(preorder)-1,  0, len(inorder)-1, in_dict)
     
+    
+    def dfs(self, preorder, inorder, pre_start, pre_end, in_start, in_end, in_dict):
+        # print(preorder, inorder)
+      
+        if pre_start > pre_end or in_start > in_end:
+            return None 
+        
+        
+        cur_val = preorder[pre_start]
+        cur_node = TreeNode(cur_val)
+        
+        # search for the index of cur_val in inorder
+        in_pivot = in_dict[cur_val]
+        
+        left_size = in_pivot - in_start
+        
+        
+        cur_node.left = self.dfs(preorder, inorder, pre_start+1, pre_start + left_size, in_start, in_pivot-1, in_dict)
+        cur_node.right = self.dfs(preorder, inorder, pre_start + left_size+1, pre_end, in_pivot+1, in_end, in_dict)
+        
+        
+        return cur_node
+        
+    
+        
+
+
+
+```
 ## 241. Different Ways to Add Parentheses 
 - [Python implementation](./lc_241_diff_ways_add_paren.py)
 - Patterns as x opt y, x and y would also like to the sub operations inside 

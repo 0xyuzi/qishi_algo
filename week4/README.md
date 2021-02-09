@@ -41,3 +41,55 @@ class Solution:
 
 
 ```
+
+## 287. [Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
+
+### Follow up:
+- How can we prove that at least one duplicate number must exist in nums?
+- Can you solve the problem without modifying the array nums?
+- Can you solve the problem using only constant, O(1) extra space?
+- Can you solve the problem with runtime complexity less than O(n2)?
+
+### Method
+After the constraints above, binary search is the the solution
+- Pick a number, count how many elements in the list
+- if the number of elements higher than the number, so choose the [start, mid]
+- else choose the [mid, end]
+- after the loop, check the left and right, count their number and check 
+
+```python
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        if not nums:
+            return None 
+        
+        start, end = 0, len(nums)-1
+        
+        while start + 1 < end:
+            mid = (end - start)//2 + start
+            
+            num_less = self.count_less_equal(mid, nums)
+            # print(mid, num_less)
+            if num_less > mid:
+                end = mid 
+            else:
+                start = mid 
+        
+        
+        if self.count_less_equal(start, nums) >start:
+            return start
+        else:
+            return end
+        
+    def count_less_equal(self, target,nums):
+        count = 0
+        
+        for num in nums:
+            if num <= target:
+                count += 1 
+                
+        return count
+        
+
+
+```
