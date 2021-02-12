@@ -276,6 +276,8 @@ class Solution:
 - Use the `nums[mid]` to compare with `nums[end]`
 - if the former less than the later, then shrink the end; otherwise, thrink on the start side
 - Finally, compare with the start with end to find the minimum
+- Followup: Would allow duplicates affect the run-time complexity? How and why?
+    - Yes, the extreme case is the original list as `[0 1 1 1 1 1]`, that needs O(N) to find the `0`.
 
 ```python
 
@@ -302,6 +304,101 @@ class Solution:
             return nums[start]
         else:
             return nums[end]
+
+
+```
+
+## [658. Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements/submissions/)
+- first use binary search to find the loc in which the value is the closest to the x
+- edge case for size of arr is 1 and k is 1 
+- the use two-ptr approach to compare which side has value closer to the x
+- the comparator would consider edge cases as: exceeds boundaries on the two sides, when two val equal, which side to choose, etc
+
+
+```python
+
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        if not arr:
+            return []
+        
+        if len(arr) == 1 and k == 1:
+            return arr
+        
+        # find the location which closest to the x 
+        
+        start, end = 0, len(arr)-1
+        
+        while start + 1 < end:
+            mid = (end - start)//2 + start
+            if arr[mid] < x:
+                start = mid
+            else:
+                end = mid 
+        
+        # print(arr[start], arr[end])
+        
+        for _ in range(k):
+            if start >=0 and end < len(arr) and abs(arr[start] - x) == abs(arr[end] - x):
+                start -= 1
+                continue 
+            
+            if start >=0 and end < len(arr) and abs(arr[start] - x) < abs(arr[end] - x):
+                start -= 1
+                continue 
+                
+            if start >=0 and end < len(arr) and abs(arr[start] - x) > abs(arr[end] - x):
+                end += 1
+                continue 
+            
+            if start < 0 and end < len(arr):
+                end += 1
+                continue
+            
+            if start >=0 and end >= len(arr):
+                start -= 1 
+                continue
+            
+            if start <0 and end >=len(arr):
+                break
+            
+            
+        
+        # print(start, end)
+        return arr[start+1:end]
+
+
+```
+
+## [162. Find Peak Element](https://leetcode.com/problems/find-peak-element/)
+- The goal is to climb to the peak
+- find if the slop is up and down by comparing the nums[mid] with nums[mid+1]
+
+
+```python
+
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        if not nums:
+            return -1
+        
+        start, end = 0, len(nums)-1 
+        
+        while start + 1 < end:
+            mid = (end - start)//2 + start 
+            
+            if nums[mid] > nums[mid+1]:
+                end = mid 
+            else:
+                start = mid 
+                
+            
+        print(nums[start], nums[end])
+        if nums[start] > nums[end]:
+            return start
+        else:
+            return end 
+            
 
 
 ```
