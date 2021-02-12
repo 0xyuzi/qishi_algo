@@ -270,3 +270,38 @@ class Solution:
 
 
 ```
+
+## [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
+
+- Use the `nums[mid]` to compare with `nums[end]`
+- if the former less than the later, then shrink the end; otherwise, thrink on the start side
+- Finally, compare with the start with end to find the minimum
+
+```python
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums:
+            return None 
+        
+        start, end = 0, len(nums)-1
+        
+        
+        while start + 1 < end:
+            
+            mid = (end - start)//2 + start
+            # print(nums[start],nums[mid], nums[end])
+            if nums[mid] > nums[end]:
+                start = mid
+            else:
+                end = mid 
+                
+        # print(nums[start],nums[mid], nums[end])
+        
+        if nums[start] < nums[end]:
+            return nums[start]
+        else:
+            return nums[end]
+
+
+```
