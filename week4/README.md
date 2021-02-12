@@ -1,4 +1,7 @@
 # Binary Search 
+It has two variants
+1. Find the K smallest elements problems. In case case, binary search to find a number and count how many elements in the data less or equal to this number
+2. Find the minimum number in a sorted array. Search for the index.
 
 ## [34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 - It's tricky to find the left boundary 
