@@ -402,3 +402,57 @@ class Solution:
 
 
 ```
+
+## [Lintcode 183. Wood Cut](https://www.lintcode.com/problem/183/)
+- think about the relationship between the length and the cuttable pieces 
+- in each iter of binary search for the length to get equal or more than k pieces, if `pieces[mid] >=k `, the start boundary would move to the mid.
+- Finally, the result needs to return the max length, so use `end` at first to check
+
+
+```python
+class Solution:
+    """
+    @param L: Given n pieces of wood with length L[i]
+    @param k: An integer
+    @return: The maximum length of the small pieces
+    
+    binary search, think about the min and max range 
+    time complex O(nlog(max(L))
+    """
+    def woodCut(self, L, k):
+        # write your code here
+        if not L:
+            return 0 
+        
+        start, end = 1, max(L)
+        
+      
+        
+        while start + 1 < end:
+            mid = (end - start)//2 + start 
+            
+            n_pieces = self.get_peices(mid, L)
+            
+            if n_pieces >= k:
+                start = mid
+            else:
+                end = mid 
+                
+        
+        if self.get_peices(end, L) >=k:
+            return end 
+        
+        if self.get_peices(start,L) >=k:
+            return start 
+            
+        return 0 
+    
+    def get_peices(self, mid,L):
+        count = 0
+        for l in L:
+            count += l//mid 
+        
+        return count 
+        
+
+```
