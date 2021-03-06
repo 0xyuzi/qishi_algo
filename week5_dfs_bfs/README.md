@@ -23,3 +23,4 @@ queue = deque([])
 
 ## [lintcode 624. Remove Substrings](https://www.lintcode.com/problem/624/?_from=ladder&fromId=161)
 https://shenlvmeng.github.io/blog/2015/11/03/bloom-filter/
+https://blog.csdn.net/largetalk/article/details/7239105
